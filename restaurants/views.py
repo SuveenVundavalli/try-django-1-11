@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from .models import RestaurantLocation
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
+from django.shortcuts import render
 
 
 # Create your views here.
@@ -15,15 +15,8 @@ def restaurant_listview(request):
 
 class RestaurantListView(ListView):
     template_name = 'restaurants/restaurant_list.html'
-    queryset = RestaurantLocation.objects.all()
-
-
-class SearchRestaurantListView(ListView):
-    template_name = 'restaurants/restaurant_list.html'
 
     def get_queryset(self):
-        print('in slug')
-        print(self.kwargs)
         slug = self.kwargs.get('slug')
         if slug:
             queryset = RestaurantLocation.objects.filter(
@@ -31,6 +24,14 @@ class SearchRestaurantListView(ListView):
                 Q(name__icontains=slug)
             )
         else:
-            queryset = RestaurantLocation.objects.none()
+            queryset = RestaurantLocation.objects.all()
         return queryset
 
+
+class RestaurantDetailView(DetailView):
+    queryset = RestaurantLocation.objects.all()
+    def get_context_data(self, *args, **kwargs):
+        print(self.kwargs)
+        context = super(RestaurantDetailView, self).get_context_data(*args, **kwargs);
+        print(context)
+        return context
