@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from restaurants.views import home, about, contact
+from restaurants.views import home, about, ContactView
 
 urlpatterns = [
     url(r'^$', home),
     url(r'^about/$', about),
-    url(r'^contact/$', contact),
+    url(r'^contact/$', ContactView.as_view()),
     url(r'^admin/', admin.site.urls),
 ]
