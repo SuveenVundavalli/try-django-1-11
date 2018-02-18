@@ -1,5 +1,5 @@
 from .models import RestaurantLocation
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
@@ -47,3 +47,9 @@ class RestaurantListView(ListView):
 
 class RestaurantDetailView(DetailView):
     queryset = RestaurantLocation.objects.all()
+
+
+class RestaurantCreateView(CreateView):
+    form_class = RestaurantLocationCreateForm
+    template_name = 'restaurants/form.html'
+    success_url = '/restaurants/'
