@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Register || {{ block.super }}{% endblock title %}
+
+{% block content %}
+
+    <h1>Register</h1>
+    <div class="col-sm-6 col-sm-offser-3">
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <input type="submit" value="register"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+        <p>Do you want to <a href="{% url 'login' %}">login</a> instead?</p>
+
+
+    </div>
+
+{% endblock content %}

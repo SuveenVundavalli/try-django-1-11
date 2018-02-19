@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 
 from django.contrib import admin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView
 from menus.views import HomeView
+from profiles.views import RegisterView
 from restaurants.views import (
     RestaurantListView,
     RestaurantDetailView,
@@ -30,6 +31,8 @@ urlpatterns = [
     url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),
     url(r'^contact/$', TemplateView.as_view(template_name='contact.html'), name='contact'),
     url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^restaurants/', include('restaurants.urls', namespace='restaurants')),
     url(r'^items/', include('menus.urls', namespace='menus')),
     url(r'^profile/', include('profiles.urls', namespace='profiles')),

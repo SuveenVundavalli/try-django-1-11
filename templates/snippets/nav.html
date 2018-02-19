@@ -1,18 +1,23 @@
 <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'restaurants:list' %}">Restaurants</a></li>
+                <li><a href="{% url 'restaurants:create' %}">Create Restaurant</a></li>
+                <li><a href="{% url 'menus:list' %}">Menus</a></li>
+                <li><a href="{% url 'menus:create' %}">Create Menu</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
     </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="{% url 'home' %}">Home</a></li>
-      <li><a href="{% url 'contact' %}">Contact</a></li>
-      <li><a href="{% url 'about' %}">About</a></li>
-        {% if request.user.is_authenticated %}
-      <li><a href="{% url 'restaurants:list' %}">Restaurants</a></li>
-      <li><a href="{% url 'restaurants:create' %}">Create Restaurant</a></li>
-      <li><a href="{% url 'menus:list' %}">Menus</a></li>
-      <li><a href="{% url 'menus:create' %}">Create Menu</a></li>
-        {% endif %}
-    </ul>
-  </div>
 </nav>
