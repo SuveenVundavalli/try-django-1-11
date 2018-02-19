@@ -31,3 +31,6 @@ class Item(models.Model):
 
     def get_edit_url(self):
         return reverse('menus:edit', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.name

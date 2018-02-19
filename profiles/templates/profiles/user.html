@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} {{ user.username }} | {{ block.super }} {% endblock %}
+{% block content %}
+    <h1>User</h1>
+    <h3>{{ user.username }}</h3>
+    {% if user.restaurantlocation_set.all %}
+        {% for rest in user.restaurantlocation_set.all %}
+            <li>{{ rest.title }} | {{ rest.category }} | {{ rest.location }}</li>
+            <ul>
+                {% for item in rest.item_set.all %}
+                    <li>{{ item.name }}</li>
+                    {% for ing in item.get_contents %}
+                        <span class="label label-default">{{ ing }}</span>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <h4>No restaurants</h4>
+    {% endif %}
+
+{% endblock content %}
