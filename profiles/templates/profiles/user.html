@@ -3,6 +3,12 @@
 {% block content %}
     <h1>User</h1>
     <h3>{{ user.username }}</h3>
+    {#    {% if user.profile in request.user.is_following.all %}#}
+    {#        <p>{% include 'profiles/snippets/form.html' with username=user.username is_following=True%}</p>#}
+    {#    {% else %}#}
+    {#        <p>{% include 'profiles/snippets/form.html' with username=user.username is_following=False%}</p>#}
+    {#    {% endif %}#}
+    <p>{% include 'profiles/snippets/form.html' with username=user.username %}</p>
     <form class="form" action="." method="GET">
         <input type="text" placeholder="Search.." name="q" value="{{ request.GET.q }}">
         <button class="btn btn-default" type="submit">Search</button>

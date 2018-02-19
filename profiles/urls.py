@@ -14,11 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from .views import ProfileDetailView
+from .views import ProfileDetailView, ProfileFollowToggle
 
 
 urlpatterns = [
-
+    url(r'^follow/$', ProfileFollowToggle.as_view(), name='follow'),
     url(r'^(?P<username>[\w@.-]+)/$', ProfileDetailView.as_view(), name='detail'),
 
 ]
