@@ -9,18 +9,20 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="thumbnail">
-                        <div class="h4">{{ object.user.username }}</div>
-                        <div class="h4">{{ object.name }}</div>
-                        <p><{{ object.restaurant.category }} | {{ object.restaurant.location }}</p>
+                        <div class="h4"><a
+                                href="{% url 'profiles:detail' username=object.user.username %}">{{ object.user.username }}</a>
+                        </div>
+                        <div class="h4"><a href="{%  url 'profiles:detail' username=object.user.username %}?q={{ object.name }}">{{ object.name }}</a></div>
+                        <p><a href="{%  url 'profiles:detail' username=object.user.username %}?q={{ object.restaurant.category }}">{{ object.restaurant.category }}</a> | <a href="{%  url 'profiles:detail' username=object.user.username %}?q={{ object.restaurant.location }}">{{ object.restaurant.location }}</a></p>
                         <ul>
 
-                            <li>{{ object.name }}</li>
+                            <li><a href="{%  url 'profiles:detail' username=object.user.username %}?q={{ object.name }}">{{ object.name }}</a></li>
                             {% for ing in object.get_contents %}
-                                <a href="{{ request.path }}?q={{ ing }}"><span
+                                <a href="{%  url 'profiles:detail' username=object.user.username %}?q={{ ing }}"><span
                                         class="label label-success">{{ ing }}</span></a>
                             {% endfor %}
                             {% for ing in object.get_excludes %}
-                                <a href="{{ request.path }}?q={{ ing }}"><span
+                                <a href="{%  url 'profiles:detail' username=object.user.username %}?q={{ ing }}"><span
                                         class="label label-danger">{{ ing }}</span></a>
                             {% endfor %}
                         </ul>
