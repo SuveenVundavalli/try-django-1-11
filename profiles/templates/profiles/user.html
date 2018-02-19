@@ -3,22 +3,29 @@
 {% block content %}
     <h1>User</h1>
     <h3>{{ user.username }}</h3>
-    {% if user.restaurantlocation_set.all %}
-        {% for rest in user.restaurantlocation_set.all %}
+    <form class="form" action="." method="GET">
+        <input type="text" placeholder="Search.." name="q" value="{{ request.GET.q }}">
+        <button class="btn btn-default" type="submit">Search</button>
+    </form>
+    {% if location %}
+        {% for rest in location %}
 
             <div class="row">
                 <div class="col-sm-12">
                     <div class="thumbnail">
-                        <div class="h4">{{ rest.title }}</div>
-                        <p>{{ rest.category }} | {{ rest.location }}</p>
+                        <div class="h4"><a href="{{ request.path }}?q={{ rest.title }}">{{ rest.title }}</a></div>
+                        <p><a href="{{ request.path }}?q={{ rest.category }}">{{ rest.category }}</a> | <a
+                                href="{{ request.path }}?q={{ rest.location }}">{{ rest.location }}</a></p>
                         <ul>
                             {% for item in rest.item_set.all %}
                                 <li>{{ item.name }}</li>
                                 {% for ing in item.get_contents %}
-                                    <span class="label label-success">{{ ing }}</span>
+                                    <a href="{{ request.path }}?q={{ ing }}"><span
+                                            class="label label-success">{{ ing }}</span></a>
                                 {% endfor %}
                                 {% for ing in item.get_excludes %}
-                                    <span class="label label-danger">{{ ing }}</span>
+                                    <a href="{{ request.path }}?q={{ ing }}"><span
+                                            class="label label-danger">{{ ing }}</span></a>
                                 {% endfor %}
                             {% endfor %}
                         </ul>
@@ -28,7 +35,7 @@
 
         {% endfor %}
     {% else %}
-        <h4>No restaurants</h4>
+        <h4>No Items in Restaurants</h4>
     {% endif %}
 
 {% endblock content %}
