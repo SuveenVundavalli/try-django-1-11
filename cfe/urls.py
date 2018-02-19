@@ -20,11 +20,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView
 from menus.views import HomeView
 from profiles.views import RegisterView
-from restaurants.views import (
-    RestaurantListView,
-    RestaurantDetailView,
-    RestaurantCreateView,
-)
+from profiles.views import activate_user_view
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
@@ -37,4 +33,5 @@ urlpatterns = [
     url(r'^items/', include('menus.urls', namespace='menus')),
     url(r'^profile/', include('profiles.urls', namespace='profiles')),
     url(r'^admin/', admin.site.urls),
+    url(r'^activate/(?P<code>[a-z0-9].*)/$', activate_user_view, name='activate'),
 ]

@@ -1,4 +1,7 @@
+from .utils import code_generator
 from django.conf import settings
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 
@@ -32,8 +35,23 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-    def send_activation_email(self): # celery to delay
-        pass
+    def send_activation_email(self):  # celery to delay
+        print('Activation')
+        if not self.activated:
+            self.activation_key = code_generator()  # gen key
+            self.save()
+            path_ = reverse('activate', kwargs={"code":self.activation_key})
+            # send email
+            subject = 'Activate Account'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            message = f'Activate your account here : {path_}'
+            recipient_list = [self.user.email]
+            html_message = f'<h1>Activate your account here : {path_}</h1>'
+            print(html_message)
+            sent_mail = False
+            # sent_mail = send_mail(subject, message, from_email, recipient_list, fail_silently=False, html_message=html_message)
+
+            return sent_mail
 
 
 def post_save_user_receiver(sender, instance, created, *args, **kwargs):
