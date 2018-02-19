@@ -28,3 +28,6 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return reverse('menus:detail', kwargs={'pk': self.pk})
+
+    def get_edit_url(self):
+        return reverse('menus:edit', kwargs={'pk': self.pk})

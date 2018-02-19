@@ -1,5 +1,5 @@
 from .models import RestaurantLocation
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
@@ -40,25 +40,19 @@ class RestaurantListView(ListView):
     template_name = 'restaurants/restaurant_list.html'
 
     def get_queryset(self):
-        slug = self.kwargs.get('slug')
-        if slug:
-            queryset = RestaurantLocation.objects.filter(
-                Q(category__icontains=slug) |
-                Q(name__icontains=slug)
-            )
-        else:
-            queryset = RestaurantLocation.objects.all()
-        return queryset
+        return RestaurantLocation.objects.filter(owner=self.request.user)
 
 
 class RestaurantDetailView(DetailView):
-    queryset = RestaurantLocation.objects.all()
+    def get_queryset(self):
+        return RestaurantLocation.objects.filter(owner=self.request.user)
 
 
 class RestaurantCreateView(LoginRequiredMixin, CreateView):
     form_class = RestaurantLocationCreateForm
     template_name = 'form.html'
     success_url = '/restaurants/'
+
     # login_url = '/login/'
 
     def form_valid(self, form):
@@ -70,4 +64,18 @@ class RestaurantCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super(RestaurantCreateView, self).get_context_data(*args, **kwargs)
         context['title'] = 'Add Restaurant'
+        return context
+
+
+class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = RestaurantLocationCreateForm
+    template_name = 'form.html'
+
+    def get_queryset(self):
+        return RestaurantLocation.objects.filter(owner=self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RestaurantUpdateView, self).get_context_data(*args, **kwargs)
+        name = self.get_object().name
+        context['title'] = f'Update Restaurant - {name}'
         return context

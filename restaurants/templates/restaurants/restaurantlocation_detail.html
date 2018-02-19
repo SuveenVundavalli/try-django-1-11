@@ -4,7 +4,12 @@
     <h1>Restaurant Details</h1>
     <h1>{{ object.title }}
         <small>{{ object.category }}</small>
+        <small>
+            <small><a href="{{ object.get_edit_url }}">edit</a></small>
+        </small>
+        </small>
     </h1>
+
     <p>{{ object.location }}</p>
     <p>{{ object.timestamp }}, updated {{ object.updated|timesince }}</p>
 
