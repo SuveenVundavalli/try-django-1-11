@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} Home Feed || {{ block.super }}{% endblock title %}
+
+{% block content %}
+    <h1>Home Feed</h1>
+    <ol>
+        {% for object in object_list %}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="thumbnail">
+                        <div class="h4">{{ object.user.username }}</div>
+                        <div class="h4">{{ object.name }}</div>
+                        <p><{{ object.restaurant.category }} | {{ object.restaurant.location }}</p>
+                        <ul>
+
+                            <li>{{ object.name }}</li>
+                            {% for ing in object.get_contents %}
+                                <a href="{{ request.path }}?q={{ ing }}"><span
+                                        class="label label-success">{{ ing }}</span></a>
+                            {% endfor %}
+                            {% for ing in object.get_excludes %}
+                                <a href="{{ request.path }}?q={{ ing }}"><span
+                                        class="label label-danger">{{ ing }}</span></a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %} {# End Object List #}
+    </ol>
+{% endblock content %}
