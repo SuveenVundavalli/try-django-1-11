@@ -19,7 +19,8 @@ from django.views.generic import TemplateView
 from restaurants.views import (
     RestaurantListView,
     RestaurantDetailView,
-    RestaurantCreateView
+    RestaurantCreateView,
+    restaurant_createview
 )
 
 urlpatterns = [
