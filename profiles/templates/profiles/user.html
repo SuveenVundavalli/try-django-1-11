@@ -5,15 +5,27 @@
     <h3>{{ user.username }}</h3>
     {% if user.restaurantlocation_set.all %}
         {% for rest in user.restaurantlocation_set.all %}
-            <li>{{ rest.title }} | {{ rest.category }} | {{ rest.location }}</li>
-            <ul>
-                {% for item in rest.item_set.all %}
-                    <li>{{ item.name }}</li>
-                    {% for ing in item.get_contents %}
-                        <span class="label label-default">{{ ing }}</span>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="thumbnail">
+                        <div class="h4">{{ rest.title }}</div>
+                        <p>{{ rest.category }} | {{ rest.location }}</p>
+                        <ul>
+                            {% for item in rest.item_set.all %}
+                                <li>{{ item.name }}</li>
+                                {% for ing in item.get_contents %}
+                                    <span class="label label-success">{{ ing }}</span>
+                                {% endfor %}
+                                {% for ing in item.get_excludes %}
+                                    <span class="label label-danger">{{ ing }}</span>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         {% endfor %}
     {% else %}
         <h4>No restaurants</h4>
